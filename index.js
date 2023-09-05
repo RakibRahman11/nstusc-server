@@ -25,18 +25,37 @@ async function run() {
         await client.connect();
 
         const committeeCollection = client.db("nstuscDB").collection("memberList");
+        const usersCollection = client.db("nstuscDB").collection("users");
         const prevEventsCollection = client.db("nstuscDB").collection("previousEvents");
         const upcomingEventsCollection = client.db("nstuscDB").collection("upcomingEvents");
 
-        app.get('/committee', async(req, res) =>{
+        app.get('/committee', async (req, res) => {
             const result = await committeeCollection.find().toArray();
             res.send(result)
         })
-        app.get('/previousEvents', async(req, res) =>{
+
+        app.post('/users', async (req, res) => {
+            const user = req.body;
+            const query = { email: user.email }
+            const existUser = await usersCollection.findOne(query);
+            if (existUser) {
+                return res.send({ message: 'User already exists' })
+            }
+            const result = await usersCollection.insertOne(user);
+            res.send(result)
+        })
+
+        app.get('/previousEvents', async (req, res) => {
             const result = await prevEventsCollection.find().toArray();
             res.send(result)
         })
-        app.get('/upcomingEvents', async(req, res) =>{
+
+        app.get('/users', async (req, res) => {
+            const result = await usersCollection.find().toArray();
+            res.send(result)
+        })
+
+        app.get('/upcomingEvents', async (req, res) => {
             const result = await upcomingEventsCollection.find().toArray();
             res.send(result)
         })
