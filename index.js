@@ -24,13 +24,13 @@ async function run() {
     try {
         await client.connect();
 
-        const committeeCollection = client.db("nstuscDB").collection("memberList");
+        const teamCollection = client.db("nstuscDB").collection("teamList");
         const usersCollection = client.db("nstuscDB").collection("users");
         const prevEventsCollection = client.db("nstuscDB").collection("previousEvents");
         const upcomingEventsCollection = client.db("nstuscDB").collection("upcomingEvents");
 
-        app.get('/committee', async (req, res) => {
-            const result = await committeeCollection.find().toArray();
+        app.get('/teamList', async (req, res) => {
+            const result = await teamCollection.find().toArray();
             res.send(result)
         })
 
