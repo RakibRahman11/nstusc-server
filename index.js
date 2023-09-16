@@ -28,6 +28,7 @@ async function run() {
         const usersCollection = client.db("nstuscDB").collection("users");
         const prevEventsCollection = client.db("nstuscDB").collection("previousEvents");
         const upcomingEventsCollection = client.db("nstuscDB").collection("upcomingEvents");
+        const registrationCollection = client.db("nstuscDB").collection("jointeam");
 
         app.get('/teamList', async (req, res) => {
             const result = await teamCollection.find().toArray();
@@ -43,6 +44,12 @@ async function run() {
             }
             const result = await usersCollection.insertOne(user);
             res.send(result)
+        })
+
+        app.post('/jointeam', async (req, res) => {
+            const newMember = req.body
+            const result = await registrationCollection.insertOne(newMember)
+            res.json(result)
         })
 
         app.get('/previousEvents', async (req, res) => {
