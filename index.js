@@ -29,6 +29,7 @@ async function run() {
         const prevEventsCollection = client.db("nstuscDB").collection("previousEvents");
         const upcomingEventsCollection = client.db("nstuscDB").collection("upcomingEvents");
         const registrationCollection = client.db("nstuscDB").collection("jointeam");
+        const birthdayCollection = client.db("nstuscDB").collection("birthdayList");
 
         app.get('/teamList', async (req, res) => {
             const result = await teamCollection.find().toArray();
@@ -54,6 +55,11 @@ async function run() {
 
         app.get('/previousEvents', async (req, res) => {
             const result = await prevEventsCollection.find().toArray();
+            res.send(result)
+        })
+
+        app.get('/birthdayList', async (req, res) => {
+            const result = await birthdayCollection.find().toArray();
             res.send(result)
         })
 
